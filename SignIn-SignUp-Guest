@@ -1,0 +1,155 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <time.h>
+
+struct Profiles {
+    char username[20];
+    char password[25];
+};
+
+int main()
+{
+    char a, c, p[25];
+    int w;
+    char mode[20];
+    int sw_mode; // switch_mode
+    int n = 1;
+    struct Profiles data[n];
+
+    printf("Welcome to Tic-Tac-Toe\n");
+    printf("Would you like to play as a guest, sign up, or sign in?\n");
+    // fgets(mode, sizeof(mode), stdin);
+    // scanf("%s", mode);
+    fgets(mode, sizeof(mode), stdin);
+    mode[strcspn(mode, "\n")] = '\0'; // removes the newline character from input
+
+    /* printf("You selected: ");
+    puts(mode);
+    printf("\n"); */
+
+    if (strcmp(mode, "guest") == 0 || (mode, "Guest") == 0)
+        sw_mode = 0;
+    else if (strcmp(mode, "sign up") == 0 || (mode, "Sign Up") == 0 || (mode, "Sign up") == 0 || (mode, "sign Up") == 0 || (mode, "signup") == 0 || (mode, "Signup") == 0)
+        sw_mode = 1;
+    else if (strcmp(mode, "sign in") == 0 || (mode, "Sign In") == 0 || (mode, "Sign in") == 0 || (mode, "sign In") == 0 || (mode, "signin") == 0 || (mode, "Signin") == 0)
+        sw_mode = 2;
+    else {
+        printf("\nInvalid mode entered, please try again");
+        return 1;
+    }
+//-------------------------------------------------------------------------Guest Mode-----------------------------------------------------------------------------\\
+
+    switch (sw_mode) {
+    case (0):
+        printf("Welcome Guest!\n");
+        printf("Temp");
+        break;
+//-------------------------------------------------------------------------Sign Up-----------------------------------------------------------------------------\\
+
+    case (1):
+        for (int i = 0; i < n; i++) {
+            // Prompt for username
+            printf("Please Create A Username: ");
+            fgets(data[i].username, sizeof(data[i].username), stdin);
+            data[i].username[strcspn(data[i].username, "\n")] = '\0';
+
+            char p[25]; // temporary password storage
+            int j = 0; // index for the password array
+            do {
+                printf("\nPlease Create A Password (At Least 7 Characters Long): ");
+                j = 0; // resets the password array
+                memset(p, 0, sizeof(p)); // clears the password array
+
+                while (j < 20) { // limis the t password to 20 characters
+                    a = getch(); // get a character without echoing
+                    if (a == '\r') { // so if enter is pressed it wont result in *
+                        break;
+                    } else if (a == '\b') { // so if backspace is entered it wont result in *
+                        if (j > 0) {
+                            printf("\b \b"); // Erases the last '*'
+                            j--; // Move back in the password array
+                        }
+                    } else {
+                        // Store the character and display '*'
+                        p[j++] = a;
+                        printf("*");
+                    }
+                }
+                p[j] = '\0'; // null-terminate the password string
+
+                if (strlen(p) < 7) {
+                        printf("\nPassword must be at least 7 characters long. Try again.\n");}
+
+                /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                (WORK IN PROGRESS)
+                if (data[i].username==data[i].password){}
+                    printf("\nChoosing A Password the same as your Usernamed isn't safe, please choose a unique password without your username\n");
+                }!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+
+            } while (strlen(p) < 7 || data[i].username==data[i].password); // Repeat if the password is too short
+
+            // Stores the password in the profiles struct
+            strcpy(data[i].password, p);
+
+            printf("\nThank you for signing up %s\n", data[i].username);
+            ////////////////////////////////////////////////////////////////////////////////////////
+            printf("Your password has been set as: %s --- (Won't print in final code - for testing) ", data[i].password); // remember to remove
+            /////////////////////////////////////////////////////////////////////////////////////////
+
+            usleep(1500000); //timer that waits too seconds (to make it look smoother)
+        }
+//-------------------------------------------------------------------------Sign in-----------------------------------------------------------------------------\\
+
+    case (2): {
+    char enteredUsername[20], enteredPassword[25]; // creates arrays that the previous account created can be entered
+    // starts out without anything inside of it, each one is changed like -> (P,A,S,S,W,O,R,D,0,0,0...25th 0)
+    int authenticated = 0;
+
+    do {
+        // Prompt for username
+        printf("\nPlease Enter Your Username: ");
+        fgets(enteredUsername, sizeof(enteredUsername), stdin);
+        enteredUsername[strcspn(enteredUsername, "\n")] = '\0';
+
+        // Prompt for password
+        printf("Please Enter Your Password: ");
+        memset(enteredPassword, 0, sizeof(enteredPassword)); // sets all of the characters in the enteredPassword array to 0's
+        int j = 0;
+        while (j < 20) {
+            a = getch();
+            if (a == '\r') {
+                break;
+            } else if (a == '\b') {
+                if (j > 0) {
+                    printf("\b \b");
+                    j--;
+                }
+            } else {
+                enteredPassword[j++] = a;
+                printf("*");
+            }
+        }
+        enteredPassword[j] = '\0'; // null-terminate the password string
+
+        // valid sign in
+        for (int i = 0; i < n; i++) {
+            if (strcmp(data[i].username, enteredUsername) == 0 && strcmp(data[i].password, enteredPassword) == 0) { /*if the username entered array is the same as the sign up & password
+            (not an or as they both need to be right), then its a valid input*/
+                authenticated = 1;
+                printf("\n\nWelcome back, %s!\n", data[i].username);
+                break;
+            }
+        }
+
+        if (!authenticated) {
+            printf("\n\nInvalid username or password. Please try again.\n");
+        }
+    } while (!authenticated); // Repeat until valid input for password & username are entered
+
+    break;
+}
+    }
+}
