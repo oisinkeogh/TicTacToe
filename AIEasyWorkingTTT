@@ -1,0 +1,303 @@
+/*
+    C Tic Tac Toe Game
+    Original Author: Vibhutesh Kumar Singh
+    Adapted from C++ to C by Vibhutesh Kumar Singh
+    Original Version Written in November 2013
+    Source: http://cncpp.divilabs.com/2013/11/c-tic-tac-toe-game-project-with-source.html
+    Further Adapted by Oisin Keogh and Simon Thibault November 2024
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+char num[10] = {'o','1','2','3','4','5','6','7','8','9'};   //array for tictactoe
+char conn[17] = {'o','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'};  //array for connect four
+/*
+    Function to return status 1 for game over with a success,
+    -1 for game in progress & 0 for game over & draw situation.
+*/
+void computerAI(int gameSelect, int aiSelect)   {
+int move;
+char m = 'O';
+
+switch (gameSelect) {
+    case 1:
+
+        switch(aiSelect)    {   //for 3x3
+
+
+            case 1: //easy mode
+        do  {
+            move = (rand() % 9) + 1;
+        }while (num[move] == 'X' || num[move] == 'O');
+        num[move] = m;
+        printf("Computer chooses: %d\n", move);
+
+            break;
+
+            case 2: //medium mode
+
+
+            break;
+
+            case 3: //hard mode
+
+
+            break;
+    }
+        break;
+
+    case 2:
+        switch(aiSelect)    {   //for 4x4
+
+            case 1: //easy mode
+        do  {
+            move = (rand() % 16) + 1;
+        }while (conn[move] == 'X' || conn[move] == 'O');
+        conn[move] = m;
+        printf("Computer chooses: %c\n", 'A' + move - 1);
+
+            break;
+
+            case 2: //medium mode
+
+
+            break;
+
+            case 3: //hard mode
+
+
+            break;
+}
+        break;
+}
+
+}
+int win(int select)
+{
+    int tttWinningArr[8][3] = {{1,2,3},{4,5,6},{7,8,9},{1,4,7},{2,5,8},{3,6,9},{1,5,9},{3,5,7}};    //array for winning arrangements for tictactoe
+    int connFourWinningArr[10][4] = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16},{1,5,9,13},{2,6,10,14},{3,7,11,15},{4,8,12,16},{1,6,11,16},{4,7,10,13}};    //array for winning arrangements of connect four
+    int x = -1; //initialize x so it continually runs the game by default
+
+    switch(select)  {   //selected in main for which of the two games that's being played
+
+        case 1: //for tictactoe win check
+
+            for (int i = 0; i < 8; i++) {   //loops for each of the 8 sets of winning arrangements
+                if (num[tttWinningArr[i][0]] == num[tttWinningArr[i][1]] && num[tttWinningArr[i][1]] == num[tttWinningArr[i][2]])   {   //checks if the values in the first, second and third column of the winning array to see if they match
+                    return 1;   //if they match, the game is won
+                }
+            }
+                 for (int i=0; i <=9; i++)  {   //for checking all the slots have been filled
+                    if (num[i+1] == '1' + i)  { //checking if the numbers are still in place, so the game can continue
+                    return -1;
+                    }
+                }
+                 return 0;  //if neither of the above two are true, the game must be a draw as there is no more places to be filled
+    break;
+
+        case 2: //for connect four win check
+
+            for (int i = 0; i < 10; i++) {   //loops for each of the 8 sets of winning arrangements
+                if (conn[connFourWinningArr[i][0]] == conn[connFourWinningArr[i][1]] && conn[connFourWinningArr[i][1]] ==
+                    conn[connFourWinningArr[i][2]] && conn[connFourWinningArr[i][2]] == conn[connFourWinningArr[i][3]])   { ////checks if the values in the first, second, third and fourth column of the winning array to see if they match
+                    return 1;   //if they match the game is won
+                }
+            }
+                 for (int i=0; i <=16; i++)  {  //for checking all slots have been filled
+                    if (conn[i+1] == 'A' + i)  { //checking the letters are still in place, so the game can continue
+                    return -1;
+                    }
+                }
+                    return 0;   //if neither of the above are true, all slots have been filled and the game has not been won so must be a draw
+    break;
+}
+
+}
+
+void tttPrint() // Function to draw the player's game board along with their input
+{
+    printf("\n\n\tTic Tac Toe\n\n");
+    printf("Player 1 (X)  -  Player 2 (O)\n\n");
+    printf("\n");
+
+    for (int i=0, j=0; i<3; i++, j+=3)    { //loop for printing the table for tictactoe
+    printf("     |     |     \n");
+    printf("  %c  |  %c  |  %c\n", num[j+1], num[j+2], num[j+3]);   //used to create a 3x3 where the elements from the array are correctly reflected
+
+    if (i<2)  {
+    printf("_____|_____|_____\n");
+    }
+    else   {
+    printf("     |     |     \n");
+              }
+            }
+
+}
+
+void connectFourPrint()
+{
+    printf("\n\n\tConnect 4\n\n");
+    printf("Player 1 (X)  -  Player 2 (O)\n\n");
+    printf("\n");
+
+    for (int i=0, j=0; i<4; i++, j+=4)    { //loop for printing the table for connect four
+    printf("      |      |      |      \n");
+    printf("  %c   |  %c   |  %c   |  %c   \n", conn[j + 1], conn[j + 2], conn[j + 3], conn[j + 4]);    //used to create a 4x4 where the elements from the array are correctly reflected
+
+    if (i<3) {
+        printf("______|______|______|______\n");
+    }
+    else   {
+        printf("      |      |      |      \n");
+    }
+    }
+
+}
+
+void tttCheck(int player)    {
+    int ch;
+    char m = (player == 1) ? 'X' : 'O'; //for selecting X for player 1 and O for player 2
+
+        printf("Player %d, enter a number: ", player);
+        scanf("%d", &ch);   //inputs where on the board the user would like to play
+
+        if (ch >= 1 && ch <= 9 && num[ch] == '0' + ch)   {  //loops to check if the placement from the user is already taken
+            num[ch] = m;    //if the space is free, the slected placement is then taken by the user's token
+        }
+
+        else{
+            printf("Invalid move! Try Again \n"); //if a user selects a square that's already been taken, they are promted to choose again
+            tttCheck(player);
+        }
+
+}
+
+void connFourCheck(int player) {
+    char ch, m = (player == 1) ? 'X' : 'O'; //for selecting X for player 1 and O for player 2
+
+        printf("Player %d, enter a letter: ", player);
+        scanf(" %c", &ch);   //inputs where on the board the user would like to play, done with characters between A and P
+
+        ch = toupper(ch); // Convert input to uppercase
+
+        if (ch >= 'A' && ch <= 'P' && conn[ch - 'A' + 1] == ch)   { //loops to check if the placement from the user is already taken
+            conn[ch - 'A' + 1] = m;   //if the space is free, the slected placement is then taken by the user's token
+        }
+        else{
+            printf("Invalid move \n"); //if a user selects a square that's already been taken, they are promted to choose again
+            connFourCheck(player);
+        }
+}
+
+
+void reset()    {
+    for (int i = 1; i <= 9; i++) {
+        num[i] = '0' + i; // Resetting num array for Tic Tac Toe
+    }
+    for (int i = 1; i <= 16; i++) {
+        conn[i] = 'A' + (i - 1); // Resetting conn array for Connect Four
+    }
+}
+
+
+int main()
+{
+    int player, i, x,gameSelect=0, tourCount, playerOneWin = 0, playerTwoWin = 0, aiSelect, playerCount;
+
+    srand(time(NULL));
+
+        printf("How many games would you like to play? ");
+        scanf("%d", &tourCount);    //takes in an input from the user for how many rounds they'd like to play in the tournament
+
+        printf("Select 1 for Tic Tac Toe or 2 for Connect-4! ");
+        scanf("%d", &gameSelect);   //used to select what mode the user would like to play
+
+        printf("1 Player or 2 Player: ");
+        scanf("%d", &playerCount);
+
+        printf("What difficulty of computer would you like to face: 1. Easy || 2. Medium || 3. Hard ");
+        scanf("%d", &aiSelect);
+
+    for (x=0; x <tourCount; x++) {  //loop used for running the tournament
+
+        player = 1;
+        i = -1; //sets game state at start
+    do
+    {
+    if (playerCount == 2)   {   //for player vs player games
+        if (gameSelect == 1)    {   //if tictactoe is selected
+            tttPrint(); //prints tictactoe
+            tttCheck(player);   //runs the function to check if a input is valid or not
+            i = win(gameSelect); //checks if the win condition is met
+            player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+        }
+        else if (gameSelect == 2)   {   //if connect four is selected
+            connectFourPrint(); //prints connect four
+            connFourCheck(player);  //runs the function to check if a input is valid or not
+            i = win(gameSelect);    //checks if the game has been won after each move
+            player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+        }
+        else{
+            printf("Invalid Option!");  //if user inputs an invalid option
+        }
+    }
+
+    else    {   //for player vs computer games
+        if (gameSelect == 1)    {   //if tictactoe is selected
+            tttPrint(); //prints tictactoe
+            if (player == 1)    {
+                tttCheck(player);   //runs the function to check if a input is valid or not
+            }
+            else    {
+                computerAI(gameSelect, aiSelect);
+            }
+                i = win(gameSelect);    //checks if the game has been won after each move
+                player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+    }
+        else if (gameSelect == 2)   {   //if connect four is selected
+            connectFourPrint(); //prints connect four
+            if (player = 1) {
+            connFourCheck(player);  //runs the function to check if a input is valid or not
+            }
+            else    {
+                computerAI(gameSelect,aiSelect);
+            }
+            i = win(gameSelect);    //checks if the game has been won after each move
+            player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+        }
+        else    {
+            printf("Invalid Option!");  //if user inputs an invalid option
+        }
+    }
+    } while (i == -1);
+
+    if (gameSelect == 1)    {   //if tictactoe is selected
+            tttPrint(); }   //reprints the final screen value
+    else if (gameSelect == 2)   {
+            connectFourPrint(); }
+
+
+    if (i == 1)    {
+        if (player == 2)    {
+         playerOneWin++;    //if the game is won and player selected is player 2, player one wins
+         printf("==> Player 1 wins!\n");
+    }
+    else {
+         playerTwoWin++;
+         printf("==> Player 2 wins!\n");
+         }
+    }
+    else if (i == 0)   {
+        printf("==> Game draw\n");
+    }
+        reset();    //resets the values to allow for a new game
+    }
+    printf("Player One Wins: %d / Player Two Wins: %d\n", playerOneWin, playerTwoWin);  //prints out the result of the tournament
+
+    getchar(); // Wait for user input before exiting
+    return 0;
+
+}
