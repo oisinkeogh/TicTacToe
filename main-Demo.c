@@ -405,7 +405,7 @@ case (0):
 
             printf("\nThank you for signing up, %s\n", data[i].username);
             ////////////////////////////////////////////////////////////////////////////////////////
-            printf("Your password has been set as: %s --- (Won't print in final code - for testing)\n", data[i].password); // remember to remove
+            printf("Your password has been set as: %s\n", data[i].password); // remember to remove
             /////////////////////////////////////////////////////////////////////////////////////////
 
             usleep(1000000); // Timer that waits for 1.5 seconds (to make it look smoother)
@@ -484,8 +484,8 @@ case (0):
         // Only ask for AI difficulty if the player selects 1 Player
         if (playerCount == 1) {
         printf("What difficulty of computer would you like to face: 1. Easy || 2. Medium || 3. Hard ");
-        scanf("%d", &aiSelect);   
-    } 
+        scanf("%d", &aiSelect);
+    }
     for (x=0; x <tourCount; x++) {  //loop used for running the tournament
         player = 1;
         i = -1; //sets game state at start
