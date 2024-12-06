@@ -498,7 +498,7 @@ case (0):
         }
     }
     else    {   //for player vs computer games
-        if (gameSelect == 1)    {   //if tictactoe is selected
+        if (gameSelect == 1 && aiSelect !=3)    {   //if tictactoe is selected
             tttPrint(); //prints tictactoe
             if (player == 1)    {
                 tttCheck(player);   //runs the function to check if a input is valid or not
@@ -509,7 +509,7 @@ case (0):
                 i = win(gameSelect);    //checks if the game has been won after each move
                 player = (player % 2) ? 2 : 1;  //assigns what order the players go in
     }
-        else if (gameSelect == 2)   {   //if connect four is selected
+        else if (gameSelect == 2 && aiSelect !=3)   {   //if connect four is selected
             connectFourPrint(); //prints connect four
             if (player == 1) {
             connFourCheck(player);  //runs the function to check if a input is valid or not
@@ -518,7 +518,29 @@ case (0):
                 computerAI(gameSelect,aiSelect);
             }
             i = win(gameSelect);    //checks if the game has been won after each move
-            player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+                player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+        }
+        else if (gameSelect == 1 && aiSelect == 3)    {   //if tictactoe is selected and hard mode
+            tttPrint(); //prints tictactoe
+            if (player == 1)    {
+                computerAI(gameSelect, aiSelect);   //runs the function to check if a input is valid or not
+            }
+            else    {
+                tttCheck(player);
+            }
+                i = win(gameSelect);    //checks if the game has been won after each move
+                player = (player % 2) ? 2 : 1;  //assigns what order the players go in
+    }
+        else if (gameSelect == 2 && aiSelect == 3)   {   //if connect four is selected
+            connectFourPrint(); //prints connect four
+            if (player == 1) {
+            computerAI(gameSelect,aiSelect);
+            }
+            else    {
+                connFourCheck(player);  //runs the function to check if a input is valid or not
+            }
+            i = win(gameSelect);    //checks if the game has been won after each move
+                player = (player % 2) ? 2 : 1;  //assigns what order the players go in
         }
         else    {
             printf("Invalid Option!");  //if user inputs an invalid option
