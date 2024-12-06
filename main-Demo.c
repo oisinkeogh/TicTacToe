@@ -481,8 +481,11 @@ case (0):
         scanf("%d", &gameSelect);   //used to select what mode the user would like to play
         printf("1 Player or 2 Player: ");
         scanf("%d", &playerCount);
+        // Only ask for AI difficulty if the player selects 1 Player
+        if (playerCount == 1) {
         printf("What difficulty of computer would you like to face: 1. Easy || 2. Medium || 3. Hard ");
-        scanf("%d", &aiSelect);
+        scanf("%d", &aiSelect);   
+    } 
     for (x=0; x <tourCount; x++) {  //loop used for running the tournament
         player = 1;
         i = -1; //sets game state at start
