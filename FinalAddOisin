@@ -47,11 +47,41 @@ switch (gameSelect) {   //for picking the ai for either tictactoe or connect fou
 
             break;
 
-            case 2: //medium mode
+            case 2: //medium mode // only blocks
 
             for (int i = 0; i < 8; i++)    {    //for looping through the win conditions array
 
-                for (int j = 0; j<= 3; j++)  {  //checks each line to make sure to see what moves have been made
+                for (int j = 0; j< 3; j++)  {  //checks each line to make sure to see what moves have been made
+                    if (num[tttWinningArr[i][j]] == playerOne)   { //checks to see what moves the play has made
+                        playerOneCount++;   //for each time the player places one, adds to a tally
+                    }
+                    else if (num[tttWinningArr[i][j]]!= 'X' && num[tttWinningArr[i][j]]!= 'O'){
+                        emptySlot = tttWinningArr[i][j];    //keeps a tally of each space that hasn't been moved
+                    }
+                }
+                if (playerOneCount == 2 && emptySlot != -1)  {//if the player has made a move, and the slot isn't filled
+                    num[emptySlot] = m;// makes its move based on this
+                    printf("Computer chooses: %d\n", emptySlot);   //prints what move is made
+                    printf("Nice try!");
+                    foundMove = 1;  //changes status off of random move
+                    break;
+                }
+                if (foundMove!= 1) {   //runs till enough moves are made so that the computer can make moves based on inputs
+                    do  {
+                        move = (rand() % 9) + 1;    //works the same as above code used in easy mode
+                    }while (num[move] == 'X' || num[move] == 'O');
+                        num[move] = m;
+                        printf("Computer chooses: %d\n", move);
+                break;
+                }
+            }
+            break;
+
+            case 3: //hard mode // blocks and tries to win
+
+            for (int i = 0; i < 8; i++)    {    //for looping through the win conditions array
+
+                for (int j = 0; j< 3; j++)  {  //checks each line to make sure to see what moves have been made
                     if (num[tttWinningArr[i][j]] == m) {    //checks to see what moves have been made by the computer
                         aiCount++;  //for each time the computer places one, adds to a tally
                     }
@@ -62,21 +92,21 @@ switch (gameSelect) {   //for picking the ai for either tictactoe or connect fou
                         emptySlot = tttWinningArr[i][j];    //keeps a tally of each space that hasn't been moved
                     }
                 }
-                if (aiCount == 1 && emptySlot != -1 && num[emptySlot] != 'X' && num[emptySlot] != 'O')    { //if the computer has made 2 moves, and the slot isn't filled
+                if (aiCount == 2 && emptySlot != -1 && num[emptySlot] != 'X' && num[emptySlot] != 'O')    { //if the computer has made 2 moves, and the slot isn't filled
                     num[emptySlot] = m; // it makes its move
                     printf("Computer chooses: %d\n", emptySlot);   //prints move made by computer
                     printf("Try harder!");  //taunts player
                     foundMove = 1;  //changes status off of random move
                     break;
                 }
-                if (playerOneCount == 1 && emptySlot != -1 && num[emptySlot] != 'X' && num[emptySlot] != 'O')  {//if the player has made a move, and the slot isn't filled
+                if (playerOneCount == 2 && emptySlot != -1 && num[emptySlot] != 'X' && num[emptySlot] != 'O')  {//if the player has made a move, and the slot isn't filled
                     num[emptySlot] = m;// makes its move based on this
                     printf("Computer chooses: %d\n", emptySlot);   //prints what move is made
                     printf("Nice try!");
                     foundMove = 1;  //changes status off of random move
                     break;
                 }
-                if (!foundMove) {   //runs till enough moves are made so that the computer can make moves based on inputs
+                if (foundMove!= 1) {   //runs till enough moves are made so that the computer can make moves based on inputs
                     do  {
                         move = (rand() % 9) + 1;    //works the same as above code used in easy mode
                     }while (num[move] == 'X' || num[move] == 'O');
@@ -85,11 +115,6 @@ switch (gameSelect) {   //for picking the ai for either tictactoe or connect fou
                 break;
                 }
             }
-
-            break;
-
-            case 3: //hard mode
-
 
             break;
     }
@@ -107,11 +132,44 @@ switch (gameSelect) {   //for picking the ai for either tictactoe or connect fou
 
             break;
 
-            case 2: //medium mode
+            case 2: //medium mode   // only blocks
 
             for (int i = 0; i < 10; i++)    {   //runs through all winning selections
 
-                for (int j = 0; j<= 4; j++)  {  //checks each line
+                for (int j = 0; j< 4; j++)  {  //checks each line
+
+                    if (conn[connFourWinningArr[i][j]] == playerOne)   {   // checks if the player made a move in a spot
+                        playerOneCount++;   //adds to the move counter
+                    }
+                    else if (conn[connFourWinningArr[i][j]] != 'X' && (conn[connFourWinningArr[i][j]]) != 'O'){
+                        emptySlot = connFourWinningArr[i][j]; //for empty spots
+                    }
+                }
+                }
+                if (playerOneCount == 3 && emptySlot != -1)  {  //once the player makes a move
+                    printf("Computer chooses: %c\n", conn[emptySlot]);
+                    conn[emptySlot] = m;
+                    printf("Nice try!");
+                    foundMove = 1;
+                    break;
+                }
+                if (foundMove !=1) {   //runs at the start until the player/ai count is reached to make a move
+                    do  {
+                        move = rand() % 16 +1; //same as easy mode above
+                    }while (conn[move] == 'X' || conn[move] == 'O');
+                        printf("Computer chooses: %c\n", conn[move]);
+                        conn[move] = m;
+                break;
+                }
+
+
+            break;
+
+            case 3: //hard mode blocks and tries to win
+
+            for (int i = 0; i < 10; i++)    {   //runs through all winning selections
+
+                for (int j = 0; j< 4; j++)  {  //checks each line
                     if (conn[connFourWinningArr[i][j]] == m) {  // checks if the computer has made a move in a spot
                         aiCount++;  //adds to the move counter
                     }
@@ -122,22 +180,21 @@ switch (gameSelect) {   //for picking the ai for either tictactoe or connect fou
                         emptySlot = connFourWinningArr[i][j]; //for empty spots
                     }
                 }
-                if (aiCount == 2 && emptySlot != -1 && conn[emptySlot] != 'X' && conn[emptySlot] != 'O')    {   //once the computer makes a move it will try block the user
+                if (aiCount == 3 && emptySlot != -1 && conn[emptySlot] != 'X' && conn[emptySlot] != 'O')    {   //once the computer makes a move it will try block the user
                     printf("Computer chooses: %c\n", conn[emptySlot]);  //prints to the user what spot it chose
                     conn[emptySlot] = m;    //makes a move based on this info
-                    printf("%d", emptySlot);
                     printf("Try harder!");
                     foundMove = 1;  //ends the random cycle
                     break;
                 }
-                if (playerOneCount == 2 && emptySlot != -1 && conn[emptySlot] != 'X' && conn[emptySlot] != 'O')  {  //once the player makes a move
+                if (playerOneCount == 3 && emptySlot != -1 && conn[emptySlot] != 'X' && conn[emptySlot] != 'O')  {  //once the player makes a move
                     printf("Computer chooses: %c\n", conn[emptySlot]);
                     conn[emptySlot] = m;
                     printf("Nice try!");
                     foundMove = 1;
                     break;
                 }
-                if (!foundMove) {   //runs at the start until the player/ai count is reached to make a move
+                if (foundMove !=1) {   //runs at the start until the player/ai count is reached to make a move
                     do  {
                         move = rand() % 16 +1; //same as easy mode above
                     }while (conn[move] == 'X' || conn[move] == 'O');
@@ -146,17 +203,9 @@ switch (gameSelect) {   //for picking the ai for either tictactoe or connect fou
                 break;
                 }
             }
-
             break;
-
-            case 3: //hard mode
-
-
-            break;
+}break;
 }
-        break;
-}
-
 }
 int win(int select)
 {
@@ -237,10 +286,11 @@ void tttCheck(int player)    {
 }
 void connFourCheck(int player) {
     char ch, m = (player == 1) ? 'X' : 'O'; //for selecting X for player 1 and O for player 2
+
         printf("Player %d, enter a letter: ", player);
         scanf(" %c", &ch);   //inputs where on the board the user would like to play, done with characters between A and P
         ch = toupper(ch); // Convert input to uppercase
-        if (ch >= 'A' && ch <= 'P' && conn[ch - 'A' + 1] == ch)   { //loops to check if the placement from the user is already taken
+        if (ch >= 'A' && ch <= 'Q' && conn[ch - 'A' + 1] == ch)   { //loops to check if the placement from the user is already taken
             conn[ch - 'A' + 1] = m;   //if the space is free, the slected placement is then taken by the user's token
         }
         else{
@@ -497,4 +547,5 @@ case (0):
     printf("Player One Wins: %d / Player Two Wins: %d\n", playerOneWin, playerTwoWin);  //prints out the result of the tournament
     getchar(); // Wait for user input before exiting
     return 0;
+
 }
